@@ -34,21 +34,14 @@ with st.echo(code_location='below'):
         x = radius * math.cos(angle)
         y = radius * math.sin(angle)
         data.append(Point(x, y))
-
+    
     st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
         .mark_circle(color='#0068c9', opacity=0.5)
         .encode(x='x:Q', y='y:Q'))
 
 
 # web scraping
-import requests
-from bs4 import BeautifulSoup
+fpros_url = "https://www.fantasypros.com/nfl/adp/overall.php"
+fpros = pd.read_html(fpros_url)[0]
 
-URL = "https://realpython.github.io/fake-jobs/"
-page = requests.get(URL)
-
-soup = BeautifulSoup(page.content, "html.parser")
-
-results = soup.find(id="ResultsContainer")
-
-print(results.prettify())
+st.table(data=fpros)
